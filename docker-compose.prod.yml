@@ -1,14 +1,9 @@
-version: '3.8'
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: toralco_app
     restart: unless-stopped
-    ports:
-      - '3000:3000'
     environment:
       - DATABASE_URL=postgresql://toralco:${POSTGRES_PASSWORD}@postgres:5432/toralco_erp?schema=public
       - NEXTAUTH_URL=https://toralcoerp.quantium.com.do
@@ -16,12 +11,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    networks:
-      - toralco_network
 
   postgres:
     image: postgres:16-alpine
-    container_name: toralco_postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: toralco
@@ -34,12 +26,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-    networks:
-      - toralco_network
 
 volumes:
   pgdata:
-
-networks:
-  toralco_network:
-    driver: bridge
