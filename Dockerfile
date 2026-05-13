@@ -1,16 +1,14 @@
 # Stage 1: Dependencies
 FROM node:18-alpine AS deps
 RUN apk add --no-cache libc6-compat openssl
-RUN npm install -g pnpm@9
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --no-frozen-lockfile
+COPY package.json ./
+RUN npm install
 
 # Stage 2: Build
 FROM node:18-alpine AS builder
 RUN apk add --no-cache libc6-compat openssl
-RUN npm install -g pnpm@9
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
@@ -19,7 +17,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
-RUN npx prisma generate && pnpm build
+RUN npx prisma generate && npm run build
 
 # Stage 3: Production
 FROM node:18-alpine AS runner
