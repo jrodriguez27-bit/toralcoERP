@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
+    expose:
+      - "3000"
     environment:
       - DATABASE_URL=postgresql://toralco:${POSTGRES_PASSWORD}@postgres:5432/toralco_erp?schema=public
       - NEXTAUTH_URL=https://toralcoerp.quantium.com.do
