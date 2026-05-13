@@ -37,22 +37,6 @@ services:
     networks:
       - toralco_network
 
-  migrate:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: builder
-    container_name: toralco_migrate
-    environment:
-      - DATABASE_URL=postgresql://toralco:${POSTGRES_PASSWORD}@postgres:5432/toralco_erp?schema=public
-    command: npx prisma migrate deploy
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - toralco_network
-    restart: "no"
-
 volumes:
   pgdata:
 
