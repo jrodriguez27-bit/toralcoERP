@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 COPY package.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps 2>&1 || (cat /root/.npm/_logs/*.log 2>/dev/null; exit 1)
 
 # Stage 2: Build
 FROM node:18-alpine AS builder
