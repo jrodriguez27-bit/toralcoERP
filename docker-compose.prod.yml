@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   app:
-    image: ghcr.io/jrodriguez27-bit/toralcoerp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: toralco_app
     restart: unless-stopped
     ports:

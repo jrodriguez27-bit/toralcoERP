@@ -4,7 +4,10 @@ RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 COPY package.json ./
-RUN npm install --ignore-scripts
+RUN npm config set fetch-retries 5 && \
+    npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm install --ignore-scripts
 
 # Stage 2: Build
 FROM node:18-alpine AS builder
