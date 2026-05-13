@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 COPY package.json ./
-RUN npm install
+RUN npm install --ignore-scripts
 
 # Stage 2: Build
 FROM node:18-alpine AS builder
